@@ -1,99 +1,109 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calculadora Multifuncional</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
-    .calculator {
-      margin: 50px auto;
-      width: 300px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 10px;
-      background-color: #f9f9f9;
-    }
-    input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      box-sizing: border-box;
-    }
-    input[type="button"] {
-      width: 48%;
-      padding: 10px;
-      margin: 5px 1%;
-      box-sizing: border-box;
-    }
-  </style>
-</head>
-<body>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Lista de tarefas</title>
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                margin-top: 10px;
+            }
+            body {
+                min-height: 90vh;
+                box-sizing: border-box;
+                font-family: Georgia, 'Times New Roman', Times, serif;
+                display: flex;
+                flex-direction: column;
+                background-image: url('https://images.vexels.com/media/users/3/315203/isolated/preview/a2a39939edc36d91730ed7152855fea0-caderno-espiral-decorado-com-estrelas.png');
+                background-repeat: no-repeat;
+                background-position-x: center;
+                background-size: 580px;
+            }
+            header {
+                border: 3px solid black;
+                background-color: rgb(240, 151, 192);
+                color: rgb(0, 0, 0);
 
-  <div class="calculator">
-    <input type="text" id="display" readonly>
-    <br>
-    <input type="button" value="7" onclick="addToDisplay('7')">
-    <input type="button" value="8" onclick="addToDisplay('8')">
-    <input type="button" value="9" onclick="addToDisplay('9')">
-    <input type="button" value="+" onclick="addToDisplay('+')">
-    <br>
-    <input type="button" value="4" onclick="addToDisplay('4')">
-    <input type="button" value="5" onclick="addToDisplay('5')">
-    <input type="button" value="6" onclick="addToDisplay('6')">
-    <input type="button" value="-" onclick="addToDisplay('-')">
-    <br>
-    <input type="button" value="1" onclick="addToDisplay('1')">
-    <input type="button" value="2" onclick="addToDisplay('2')">
-    <input type="button" value="3" onclick="addToDisplay('3')">
-    <input type="button" value="*" onclick="addToDisplay('*')">
-    <br>
-    <input type="button" value="0" onclick="addToDisplay('0')">
-    <input type="button" value="." onclick="addToDisplay('.')">
-    <input type="button" value="/" onclick="addToDisplay('/')">
-    <input type="button" value="C" onclick="clearDisplay()">
-    <br>
-    <input type="button" value="√" onclick="calculateSquareRoot()">
-    <input type="button" value="x^y" onclick="calculatePower()">
-    <input type="button" value="=" onclick="calculate()">
-  </div>
+                margin-left: auto;
+                margin-right: auto;
+                padding: 10px 30px;
+                border-radius: 5%;
+            }
+            main {
+                flex: auto;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 100px;
+                font-size: large;
+                font-weight: bold;
+            }
+            footer {
+                border: 5px solid black;
+                display: flex;
+                font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                background-color: rgb(240, 151, 192); 
+                margin-left: auto;
+                margin-right: auto;
+                padding: 10px 30px;
+                border-radius: 5%;
+            }
+            footer input {
+                flex: auto;
+                padding: 10px;
 
-  <script>
-    function addToDisplay(value) {
-      document.getElementById("display").value += value;
-    }
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Lista de Tarefas</h1>
+        </header>
+        <main>
+            <ul></ul>
+        </main>
+        <br>
+        <footer>
+            <input>
+            <button onclick="add()">Adicionar</button>
+            <button onclick="apagar()">X</button>
+        </footer>
 
-    function clearDisplay() {
-      document.getElementById("display").value = "";
-    }
+        <script>
+            const tarefas = ['Estudar JS']
 
-    function calculate() {
-      try {
-        var result = eval(document.getElementById("display").value);
-        document.getElementById("display").value = result;
-      } catch (error) {
-        alert("Erro de expressão: " + error.message);
-      }
-    }
+            function add() {
+                const ul = document.querySelector("ul")
+                const input = document.querySelector("input")
+                const tarefa = input.value
 
-    function calculateSquareRoot() {
-      var value = parseFloat(document.getElementById("display").value);
-      if (!isNaN(value)) {
-        document.getElementById("display").value = Math.sqrt(value);
-      }
-    }
+                const li = document.createElement("li")
+                li.innerText = tarefa
+                ul.appendChild(li)
+                tarefas.push(tarefa)
+                input.value = ""
+                render()
+            }
+            function apagar() {
+                if (tarefas.length > 0) {
+                    tarefas.pop();
+                    render()
+                }
+            }
+            function render() {
+                const ul = document.querySelector("ul")
+                ul.innerHTML = null
 
-    function calculatePower() {
-      var base = parseFloat(prompt("Digite a base:"));
-      var exponent = parseFloat(prompt("Digite o expoente:"));
-      if (!isNaN(base) && !isNaN(exponent)) {
-        document.getElementById("display").value = Math.pow(base, exponent);
-      }
-    }
-  </script>
+                const li = document.querySelector("li")
+                tarefas.forEach(function (tarefa) {
+                const li = document.createElement("li")
+                li.innerText = tarefa 
+                ul.appendChild(li)
+                })
+            }
 
-</body>
+            render()
+        </script>
+    </body>
 </html>
